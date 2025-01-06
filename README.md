@@ -1,0 +1,1 @@
+# swift-property-crash
