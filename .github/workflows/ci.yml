@@ -4,31 +4,24 @@ on:
     branches: [ main ]
   workflow_dispatch:
 jobs:
-  linux:
+  linux-android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: "Build Swift Package on Linux"
         run: swift build
-      - name: "Build Swift Package on Android"
+      - name: "Cross-compile Swift Package to Android"
         uses: skiptools/swift-android-action@v2
         with:
           run-tests: false
-  macos-ios:
+  macos-android:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: "Build Swift Package on macOS"
         run: swift build
-      #- name: "Build Swift Package on iOS"
-      #  run: xcodebuild build -destination "generic/platform=iOS" -scheme "swift-jpeg-Package"
-  windows:
-    runs-on: windows-latest
-    steps:
-      - uses: compnerd/gha-setup-swift@main
+      - name: "Cross-compile Swift Package to Android"
+        uses: skiptools/swift-android-action@v2
         with:
-          branch: swift-6.0.2-release
-          tag: 6.0.2-RELEASE
-      - uses: actions/checkout@v4
-      - run: swift build
+          run-tests: false
 
