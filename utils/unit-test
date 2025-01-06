@@ -1,0 +1,26 @@
+#!/bin/bash
+TOOL_NAME="JPEGUnitTests"
+error()
+{
+    echo $1
+    exit 1
+}
+
+check()
+{
+    message=$1
+    shift
+    echo $@
+    "$@" || error "$message"
+}
+
+check   "error: swift build failed" \
+        swift build -c release --product $TOOL_NAME
+
+binaries=".build/release"
+if ! [ -f $binaries/$TOOL_NAME ]; then
+    error "error: missing $TOOL_NAME tool"
+fi
+
+check   "error: test failures" \
+        $binaries/$TOOL_NAME
